@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,9 +32,9 @@ public class UserController implements IUserService{
 	}
 
 	@Override
-	public List<User> find(String userid) {
-		// TODO Auto-generated method stub
-		return null;
+	@RequestMapping(value="{id}",method=RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	public User find(@PathVariable("id") String userid) {
+		return service.find(userid);
 	}
 
 	@Override

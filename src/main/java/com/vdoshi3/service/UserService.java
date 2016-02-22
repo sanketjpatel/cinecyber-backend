@@ -26,9 +26,8 @@ public class UserService implements IUserService{
 	}
 
 	@Override
-	public List<User> find(String userid) {
-		// TODO Auto-generated method stub
-		return null;
+	public User find(String userid) {
+		return users.get(userid);
 	}
 
 	@Override

@@ -27,6 +27,7 @@ public class Tester {
 		System.out.println(uc.create(u1).toString());
 		System.out.println(uc.create(u2).toString());
 		System.out.println(uc.findAll().toString());
+		System.out.println(uc.find("rocky101"));
 		context.close();
 	}
 
