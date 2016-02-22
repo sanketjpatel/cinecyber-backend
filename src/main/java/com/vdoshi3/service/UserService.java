@@ -1,5 +1,6 @@
 package com.vdoshi3.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.vdoshi3.database.UserDatabase;
 import com.vdoshi3.entity.User;
+
 @Service
 public class UserService implements IUserService{
 	static Map<String, User> users = (ConcurrentHashMap<String, User>)UserDatabase.getUsers();
@@ -20,8 +22,7 @@ public class UserService implements IUserService{
 
 	@Override
 	public List<User> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<User>(users.values());
 	}
 
 	@Override
