@@ -33,7 +33,7 @@ public class UserController implements IUserService{
 	}
 
 	@Override
-	@RequestMapping(value="{id}",method=RequestMethod.GET,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="{id}",method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public User find(@PathVariable("id") String userid) {
 		return service.find(userid);
 	}
