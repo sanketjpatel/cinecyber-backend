@@ -19,12 +19,13 @@ public class UserController implements IUserService{
 	private UserService service;
 
 	@Override
-	@RequestMapping(method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method=RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public User create(User user) {
 		return service.create(user);
 	}
 
 	@Override
+	@RequestMapping(method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<User> findAll() {
 		return service.findAll();
 	}
