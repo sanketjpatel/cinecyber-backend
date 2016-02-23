@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.vdoshi3.database.UserDatabase;
 import com.vdoshi3.entity.User;
+import com.vdoshi3.exception.UserAlreadyExistsException;
+import com.vdoshi3.exception.UserNotFoundException;
 
 @Service
 public class UserService implements IUserService{
@@ -33,9 +35,14 @@ public class UserService implements IUserService{
 	}
 	
 	@Override
-	public User create(User user) {
-		users.put(user.getUserid(), user);
-		return user;
+	public User create(User user) throws UserAlreadyExistsException {
+		if(users.containsKey(user.getUserid())){
+			throw new UserAlreadyExistsException();
+		}
+		else{
+			users.put(user.getUserid(), user);
+			return user;
+		}
 	}
 
 	@Override
@@ -44,20 +51,33 @@ public class UserService implements IUserService{
 	}
 
 	@Override
-	public User find(String userid) {
-		return users.get(userid);
+	public User find(String userid) throws UserNotFoundException{
+		if(users.containsKey(userid)){
+			return users.get(userid);
+		}else{
+			throw new UserNotFoundException();
+		}
 	}
 
 	@Override
-	public User update(User user) {
-		// TODO Auto-generated method stub
-		return null;
+	public User update(String userid, User user) throws UserNotFoundException {
+		if(users.containsKey(userid)){
+			users.put(userid, user);
+			return user;
+		}else{
+			throw new UserNotFoundException();
+		}
 	}
 
 	@Override
-	public User delete(String userid) {
-		// TODO Auto-generated method stub
-		return null;
+	public User delete(String userid) throws UserNotFoundException {
+		if(users.containsKey(userid)){
+			User user = users.get(userid);
+			users.remove(userid);
+			return user;
+		}else{
+			throw new UserNotFoundException();
+		}
 	}
 
 }
