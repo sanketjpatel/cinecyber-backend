@@ -58,6 +58,7 @@ public class JPAConfig {
 		props.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
 		props.put("hibernate.show_sql", env.getProperty("hibernate.showsql"));
 		props.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl"));
+		props.put("hibernate.format_sql",env.getProperty("hibernate.formatsql"));
 		return props;
 	}
 	

@@ -13,7 +13,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vdoshi3.controller.UserController;
+import com.vdoshi3.controller.UserControllerImp;
 import com.vdoshi3.entity.Movie;
 import com.vdoshi3.entity.User;
 import com.vdoshi3.utils.JsonReader;
