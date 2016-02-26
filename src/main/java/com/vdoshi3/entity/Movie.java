@@ -23,7 +23,7 @@ public class Movie {
 	private String country;
 	private String awards;
 	private String poster;
-	private int merascore;
+	private int metascore;
 	private float imdbRating;
 	private int imdbVotes;
 	private String imdbID;

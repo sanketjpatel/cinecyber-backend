@@ -2,13 +2,11 @@ package com.vdoshi3;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import com.vdoshi3.AppConfig;
-
-public class AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer{
+public class AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class[] {AppConfig.class, SwaggerConfig.class};
+		return new Class[] { AppConfig.class, SwaggerConfig.class, JPAConfig.class };
 	}
 
 	@Override
@@ -18,8 +16,7 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
 	@Override
 	protected String[] getServletMappings() {
-		// TODO Auto-generated method stub
-		return new String[] {"/"};
+		return new String[] { "/api/*" };
 	}
 
 }
