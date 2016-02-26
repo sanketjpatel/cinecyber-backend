@@ -8,8 +8,12 @@ import com.vdoshi3.exception.UserNotFoundException;
 
 public interface UserController {
 	public User create(User user) throws UserAlreadyExistsException;
+
 	public List<User> findAll();
+
 	public User findById(String userid) throws UserNotFoundException;
+
 	public User update(String userid, User user) throws UserNotFoundException;
-	public User delete(String userid) throws UserNotFoundException;
+
+	public void delete(String userid) throws UserNotFoundException;
 }

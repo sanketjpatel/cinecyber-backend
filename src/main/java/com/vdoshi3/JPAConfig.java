@@ -18,27 +18,26 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-
 @Configuration
 @EnableTransactionManagement
 @PropertySource("classpath:app.properties")
 public class JPAConfig {
 	@Autowired
 	private Environment env;
-	
+
 	@Bean
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory(){
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
 		emf.setDataSource(dataSource());
-		emf.setPackagesToScan(new String[] {"com.vdoshi3.entity"});
+		emf.setPackagesToScan(new String[] { "com.vdoshi3.entity" });
 		JpaVendorAdapter jpaVendor = new HibernateJpaVendorAdapter();
 		emf.setJpaVendorAdapter(jpaVendor);
 		emf.setJpaProperties(jpaProperties());
 		return emf;
 	}
-	
+
 	@Bean
-	public DataSource dataSource(){
+	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		dataSource.setUrl(env.getProperty("database.url"));
@@ -46,20 +45,20 @@ public class JPAConfig {
 		dataSource.setPassword(env.getProperty("database.password"));
 		return dataSource;
 	}
-	
+
 	@Bean
-	public PlatformTransactionManager transactionManager (EntityManagerFactory emf) {
+	public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
 		JpaTransactionManager txnManager = new JpaTransactionManager(emf);
 		return txnManager;
 	}
-	
-	public Properties jpaProperties(){
+
+	public Properties jpaProperties() {
 		Properties props = new Properties();
 		props.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
 		props.put("hibernate.show_sql", env.getProperty("hibernate.showsql"));
 		props.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl"));
-		props.put("hibernate.format_sql",env.getProperty("hibernate.formatsql"));
+		props.put("hibernate.format_sql", env.getProperty("hibernate.formatsql"));
 		return props;
 	}
-	
+
 }

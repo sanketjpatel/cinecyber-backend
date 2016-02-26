@@ -14,17 +14,17 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter @Setter @ToString
+@Getter
+@Setter
+@ToString
 @Entity
 @Table
-@NamedQueries({
-		@NamedQuery( name = "User.findByEmail" , query = "SELECT u FROM User u WHERE u.email = :vEmail"),
-		@NamedQuery( name = "User.findById", query = "SELECT u FROM User u WHERE u.userid = :vUserId")
-})
+@NamedQueries({ @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :vEmail"),
+		@NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.userid = :vUserId") })
 public class User {
 	@Id
-	@GeneratedValue(generator="uuid")
-	@GenericGenerator(name="uuid", strategy="uuid2")
+	@GeneratedValue(generator = "uuid")
+	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	private String uid;
 	private String uname;
 	@Column(unique = true)

@@ -10,6 +10,7 @@ public interface UserService {
 	public User create(User user) throws UserAlreadyExistsException;
 	public List<User> findAll();
 	public User findById(String userid) throws UserNotFoundException;
+	public User findByEmail(String email) throws UserNotFoundException;
 	public User update(String userid, User user) throws UserNotFoundException;
-	public User delete(String userid) throws UserNotFoundException;
+	public void delete(String userid) throws UserNotFoundException;
 }
