@@ -14,8 +14,8 @@ public interface MovieService {
 
 	public List<Movie> findByTitle(String title);
 
-	public Movie update(Movie movie);
+	public Movie update(String mid, Movie movie);
 
-	public Movie delete(String mid);
+	public void delete(String mid);
 
 }

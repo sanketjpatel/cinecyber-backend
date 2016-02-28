@@ -16,5 +16,5 @@ public interface MovieDao {
 
 	public Movie update(Movie movie);
 
-	public Movie delete(Movie movie);
+	public void delete(Movie movie);
 }
