@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vdoshi3.entity.Movie;
+import com.vdoshi3.exception.ResourceAlreadyExistsException;
+import com.vdoshi3.exception.ResourceNotFoundException;
 import com.vdoshi3.service.MovieService;
 
 import io.swagger.annotations.Api;
@@ -31,7 +33,7 @@ public class MovieControllerImp implements MovieController {
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Created"),
 			@ApiResponse(code = 409, message = "Movie already exists"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
-	public Movie create(@RequestBody Movie movie) {
+	public Movie create(@RequestBody Movie movie) throws ResourceAlreadyExistsException {
 		return service.create(movie);
 	}
 
@@ -50,7 +52,7 @@ public class MovieControllerImp implements MovieController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 404, message = "Not Found"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
-	public Movie findById(@RequestParam("id") String mid) {
+	public Movie findById(@RequestParam("id") String mid) throws ResourceNotFoundException {
 		return service.findById(mid);
 	}
 
@@ -69,7 +71,7 @@ public class MovieControllerImp implements MovieController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
-	public Movie update(@RequestParam("id") String mid, @RequestBody Movie movie) {
+	public Movie update(@RequestParam("id") String mid, @RequestBody Movie movie) throws ResourceNotFoundException {
 		return service.update(mid, movie);
 	}
 
@@ -79,7 +81,7 @@ public class MovieControllerImp implements MovieController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
-	public void delete(@RequestParam("id") String mid) {
+	public void delete(@RequestParam("id") String mid) throws ResourceNotFoundException {
 		service.delete(mid);
 	}
 
