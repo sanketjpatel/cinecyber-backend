@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vdoshi3.entity.User;
-import com.vdoshi3.exception.UserAlreadyExistsException;
-import com.vdoshi3.exception.UserNotFoundException;
+import com.vdoshi3.exception.ResourceAlreadyExistsException;
+import com.vdoshi3.exception.ResourceNotFoundException;
 import com.vdoshi3.service.UserService;
 
 import io.swagger.annotations.Api;
@@ -33,7 +33,7 @@ public class UserControllerImp implements UserController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 409, message = "User Exists"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
-	public User create(@RequestBody User user) throws UserAlreadyExistsException {
+	public User create(@RequestBody User user) throws ResourceAlreadyExistsException {
 		return service.create(user);
 	}
 
@@ -52,7 +52,7 @@ public class UserControllerImp implements UserController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 404, message = "User Not Found"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
-	public User findById(@PathVariable("id") String userid) throws UserNotFoundException {
+	public User findById(@PathVariable("id") String userid) throws ResourceNotFoundException {
 		return service.findById(userid);
 	}
 
@@ -62,7 +62,7 @@ public class UserControllerImp implements UserController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 404, message = "User Not Found"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
-	public User update(@PathVariable("id") String userid, @RequestBody User user) throws UserNotFoundException {
+	public User update(@PathVariable("id") String userid, @RequestBody User user) throws ResourceNotFoundException {
 		return service.update(userid, user);
 	}
 
@@ -72,7 +72,7 @@ public class UserControllerImp implements UserController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 404, message = "User Not Found"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
-	public void delete(@PathVariable("id") String userid) throws UserNotFoundException {
+	public void delete(@PathVariable("id") String userid) throws ResourceNotFoundException {
 		// public void delete(@PathVariable("id") String userid) throws
 		// UserNotFoundException {
 		System.out.println("Controller delete:" + userid);
