@@ -2,13 +2,31 @@ package com.vdoshi3.entity;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter @Setter @ToString
+@Getter
+@Setter
+@ToString
+@Entity
+@Table
+@NamedQueries({ @NamedQuery(name = "Movie.findById", query = "SELECT m FROM Movie m WHERE m.mid = :vMid"),
+		@NamedQuery(name = "Movie.findByTitle", query = "SELECT m FROM Movie m WHERE m.title LIKE :vTitle") })
 public class Movie {
-	private int mid;
+	@Id
+	@GeneratedValue(generator = "uuid")
+	@GenericGenerator(name = "uuid", strategy = "uuid2")
+	private String mid;
 	private String title;
 	private int myear;
 	private String rated;
