@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.vdoshi3.entity.Comment;
 import com.vdoshi3.exception.ResourceNotFoundException;
 import com.vdoshi3.service.CommentService;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
