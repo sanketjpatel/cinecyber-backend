@@ -8,9 +8,14 @@ import com.vdoshi3.exception.ResourceNotFoundException;
 
 public interface UserService {
 	public User create(User user) throws ResourceAlreadyExistsException;
+
 	public List<User> findAll();
-	public User findById(String userid) throws ResourceNotFoundException;
+
+	public User findById(String uid) throws ResourceNotFoundException;
+
 	public User findByEmail(String email) throws ResourceNotFoundException;
-	public User update(String userid, User user) throws ResourceNotFoundException;
-	public void delete(String userid) throws ResourceNotFoundException;
+
+	public User update(String uid, User user) throws ResourceNotFoundException;
+
+	public void delete(String uid) throws ResourceNotFoundException;
 }

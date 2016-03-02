@@ -20,18 +20,19 @@ import lombok.ToString;
 @Entity
 @Table
 @NamedQueries({ @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :vEmail"),
-		@NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.userid = :vUserId") })
+		@NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.uid = :vUid"),
+		@NamedQuery(name = "User.usernameExists", query = "SELECT u FROM User u WHERE u.username = :vUsername") })
 public class User {
 	@Id
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	private String uid;
-	private String uname;
+	private String fullname;
 	@Column(unique = true)
 	private String email;
 	@Column(unique = true)
-	private String userid;
-	private String upassword;
+	private String username;
+	private String encrytedPassword;
 	private String salt;
 	private String role;
 }

@@ -11,7 +11,6 @@ import com.vdoshi3.dao.CommentDao;
 import com.vdoshi3.dao.MovieDao;
 import com.vdoshi3.dao.UserDao;
 import com.vdoshi3.entity.Comment;
-import com.vdoshi3.entity.Movie;
 import com.vdoshi3.exception.ResourceNotFoundException;
 
 @Service

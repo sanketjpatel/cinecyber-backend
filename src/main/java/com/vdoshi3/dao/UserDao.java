@@ -10,11 +10,13 @@ public interface UserDao {
 
 	public List<User> findAll();
 
-	public User findById(String userid);
+	public User findById(String uid);
 
 	public User findByEmail(String email);
 
 	public User update(User user);
 
-	public boolean delete(String userid);
+	public void delete(User user);
+
+	boolean usernameExists(String username);
 }
