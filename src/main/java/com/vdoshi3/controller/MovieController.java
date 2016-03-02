@@ -10,11 +10,9 @@ public interface MovieController {
 	
 	public Movie create(Movie movie) throws ResourceAlreadyExistsException;
 
-	public List<Movie> findAll();
+	public List<Movie> findAll(String filterByTitle);
 
 	public Movie findById(String mid) throws ResourceNotFoundException;
-
-	public List<Movie> findByTitle(String title);
 
 	public Movie update(String mid, Movie movie) throws ResourceNotFoundException;
 

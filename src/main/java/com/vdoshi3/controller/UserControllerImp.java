@@ -52,8 +52,8 @@ public class UserControllerImp implements UserController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 404, message = "User Not Found"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
-	public User findById(@PathVariable("id") String userid) throws ResourceNotFoundException {
-		return service.findById(userid);
+	public User findById(@PathVariable("id") String uid) throws ResourceNotFoundException {
+		return service.findById(uid);
 	}
 
 	@Override
@@ -62,8 +62,8 @@ public class UserControllerImp implements UserController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 404, message = "User Not Found"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
-	public User update(@PathVariable("id") String userid, @RequestBody User user) throws ResourceNotFoundException {
-		return service.update(userid, user);
+	public User update(@PathVariable("id") String uid, @RequestBody User user) throws ResourceNotFoundException {
+		return service.update(uid, user);
 	}
 
 	@Override
@@ -72,11 +72,8 @@ public class UserControllerImp implements UserController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 404, message = "User Not Found"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
-	public void delete(@PathVariable("id") String userid) throws ResourceNotFoundException {
-		// public void delete(@PathVariable("id") String userid) throws
-		// UserNotFoundException {
-		System.out.println("Controller delete:" + userid);
-		service.delete(userid);
+	public void delete(@PathVariable("id") String uid) throws ResourceNotFoundException {
+		service.delete(uid);
 	}
 
 }

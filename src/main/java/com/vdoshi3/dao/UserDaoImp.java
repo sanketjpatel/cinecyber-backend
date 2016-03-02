@@ -32,9 +32,9 @@ public class UserDaoImp implements UserDao {
 	}
 
 	@Override
-	public User findById(String userid) {
+	public User findById(String uid) {
 		TypedQuery<User> query = em.createNamedQuery("User.findById", User.class);
-		query.setParameter("vUserId", userid);
+		query.setParameter("vUid", uid);
 		List<User> users = query.getResultList();
 		if (users != null && users.size() == 1) {
 			return users.get(0);
@@ -43,6 +43,18 @@ public class UserDaoImp implements UserDao {
 		}
 	}
 
+	@Override
+	public boolean usernameExists(String username) {
+		TypedQuery<User> query = em.createNamedQuery("User.usernameExists", User.class);
+		query.setParameter("vUsername", username);
+		List<User> users = query.getResultList();
+		if (users != null && users.size() == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	@Override
 	public User findByEmail(String email) {
 		TypedQuery<User> query = em.createNamedQuery("User.findByEmail", User.class);
@@ -57,22 +69,13 @@ public class UserDaoImp implements UserDao {
 	}
 
 	@Override
-	@Transactional
 	public User update(User user) {
 		return em.merge(user);
 	}
 
 	@Override
-	@Transactional
-	public boolean delete(String userid) {
-		User u = findById(userid);
-		if (u != null) {
-			em.remove(u);
-			return true;
-		} else {
-			return false;
-		}
-
+	public void delete(User user) {
+		em.remove(user);
 	}
 
 }

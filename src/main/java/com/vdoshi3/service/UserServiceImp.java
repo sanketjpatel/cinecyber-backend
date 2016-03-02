@@ -2,6 +2,8 @@ package com.vdoshi3.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,13 +13,15 @@ import com.vdoshi3.exception.ResourceAlreadyExistsException;
 import com.vdoshi3.exception.ResourceNotFoundException;
 
 @Service
+@Transactional
 public class UserServiceImp implements UserService {
 	@Autowired
 	private UserDao repo;
 
 	@Override
 	public User create(User user) throws ResourceAlreadyExistsException {
-		if (repo.findById(user.getEmail()) != null || repo.findByEmail(user.getEmail()) != null) {
+		if (repo.usernameExists(user.getUsername()) == true || repo.findByEmail(user.getEmail()) != null
+				|| repo.findById(user.getUid()) != null) {
 			throw new ResourceAlreadyExistsException();
 		} else {
 			return repo.create(user);
@@ -30,8 +34,8 @@ public class UserServiceImp implements UserService {
 	}
 
 	@Override
-	public User findById(String userid) throws ResourceNotFoundException {
-		User u = repo.findById(userid);
+	public User findById(String uid) throws ResourceNotFoundException {
+		User u = repo.findById(uid);
 		if (u != null) {
 			return u;
 		} else {
@@ -50,9 +54,8 @@ public class UserServiceImp implements UserService {
 	}
 
 	@Override
-	public User update(String userid, User user) throws ResourceNotFoundException {
-		System.out.println("Called update for: " + userid);
-		User u = repo.findById(userid);
+	public User update(String uid, User user) throws ResourceNotFoundException {
+		User u = repo.findById(uid);
 		if (u != null) {
 			return repo.update(user);
 		} else {
@@ -61,9 +64,11 @@ public class UserServiceImp implements UserService {
 	}
 
 	@Override
-	public void delete(String userid) throws ResourceNotFoundException {
-		boolean status = repo.delete(userid);
-		if (status == false) {
+	public void delete(String uid) throws ResourceNotFoundException {
+		User u = repo.findById(uid);
+		if (u != null) {
+			repo.delete(u);
+		} else {
 			throw new ResourceNotFoundException();
 		}
 	}
