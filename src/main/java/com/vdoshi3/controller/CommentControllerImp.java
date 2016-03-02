@@ -31,7 +31,7 @@ public class CommentControllerImp implements CommentController {
 	@ApiOperation(value = "Create a comment", notes = "Returns the created comment")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Created"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
-	public Comment create(@RequestBody Comment comment) {
+	public Comment create(@RequestBody Comment comment) throws ResourceNotFoundException {
 		return service.create(comment);
 	}
 

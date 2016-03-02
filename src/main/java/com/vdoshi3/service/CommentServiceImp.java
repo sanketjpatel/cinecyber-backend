@@ -11,6 +11,8 @@ import com.vdoshi3.dao.CommentDao;
 import com.vdoshi3.dao.MovieDao;
 import com.vdoshi3.dao.UserDao;
 import com.vdoshi3.entity.Comment;
+import com.vdoshi3.entity.Movie;
+import com.vdoshi3.entity.User;
 import com.vdoshi3.exception.ResourceNotFoundException;
 
 @Service
@@ -25,10 +27,16 @@ public class CommentServiceImp implements CommentService {
 	UserDao userRepo;
 
 	@Override
-	public Comment create(Comment comment) {
-		comment.setMovie(movieRepo.findById(comment.getMovie().getMid()));
-		comment.setUser(userRepo.findById(comment.getUser().getUid()));
-		return repo.create(comment);
+	public Comment create(Comment comment) throws ResourceNotFoundException {
+		Movie m = movieRepo.findById(comment.getMovie().getMid());
+		User u = userRepo.findById(comment.getUser().getUid());
+		if (m != null && u != null) {
+			comment.setMovie(m);
+			comment.setUser(u);
+			return repo.create(comment);
+		} else {
+			throw new ResourceNotFoundException();
+		}
 	}
 
 	@Override

@@ -6,8 +6,8 @@ import com.vdoshi3.entity.Comment;
 import com.vdoshi3.exception.ResourceNotFoundException;
 
 public interface CommentController {
-	
-	public Comment create(Comment comment);
+
+	public Comment create(Comment comment) throws ResourceNotFoundException;
 
 	public List<Comment> findAll();
 
