@@ -7,8 +7,11 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -32,7 +35,10 @@ public class User {
 	private String email;
 	@Column(unique = true)
 	private String username;
+	@JsonIgnore
 	private String encrytedPassword;
+	@Transient
+	private String userpassword;
 	private String salt;
 	private String role;
 }
