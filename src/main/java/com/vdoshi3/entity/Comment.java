@@ -31,12 +31,10 @@ public class Comment {
 	private int cid;
 	private String ucomment;
 	
-	@JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "mid" , referencedColumnName = "mid", nullable =false)
     private Movie movie;
 	
-	@JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "uid" , referencedColumnName = "uid", nullable =false)
     private User user;
