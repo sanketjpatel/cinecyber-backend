@@ -66,11 +66,12 @@ public class CommentControllerImp implements CommentController {
 	}
 
 	@Override
-	@RequestMapping(method = RequestMethod.DELETE)
+	@RequestMapping(value = "{cid}", method = RequestMethod.DELETE)
+	@ApiOperation(value = "Delete comment by id", notes = "Deletes the comment")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 404, message = "Not Found"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
-	public void delete(@RequestParam("cid") String cid) throws ResourceNotFoundException {
+	public void delete(@PathVariable("cid") String cid) throws ResourceNotFoundException {
 		service.delete(cid);
 	}
 
