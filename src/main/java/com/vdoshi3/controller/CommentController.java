@@ -7,17 +7,11 @@ import com.vdoshi3.exception.ResourceNotFoundException;
 
 public interface CommentController {
 
-	public Comment create(Comment comment) throws ResourceNotFoundException;
+	public Comment create(String mid, String uid, Comment comment) throws ResourceNotFoundException;
 
-	public List<Comment> findAll();
+	public List<Comment> findAll(String filterByMid, String filterByUid);
 
 	public Comment findByCid(String cid) throws ResourceNotFoundException;
-
-	public List<Comment> findByMid(String mid);
-
-	public List<Comment> findByUid(String uid);
-
-	public List<Comment> findByMidUid(String mid, String uid);
 
 	public void delete(String cid) throws ResourceNotFoundException;
 

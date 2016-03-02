@@ -22,20 +22,22 @@ import lombok.ToString;
 @Entity
 @Table
 @NamedQueries({ @NamedQuery(name = "Comment.findByCid", query = " SELECT c FROM Comment c WHERE c.cid = :vCid"),
-		@NamedQuery(name = "Comment.findByMid", query = " SELECT c FROM Comment c WHERE c.movie = :vMid"),
-		@NamedQuery(name = "Comment.findByUid", query = " SELECT c FROM Comment c WHERE c.user = :vUid"),
-		@NamedQuery(name = "Comment.findByMidUid", query = " SELECT c FROM Comment c WHERE c.movie = :vMid AND c.user = :vUid") })
+		@NamedQuery(name = "Comment.findByMid", query = " SELECT c FROM Comment c WHERE c.movie.mid = :vMid"),
+		@NamedQuery(name = "Comment.findByUid", query = " SELECT c FROM Comment c WHERE c.user.uid = :vUid"),
+		@NamedQuery(name = "Comment.findByMidUid", query = " SELECT c FROM Comment c WHERE c.movie.mid = :vMid AND c.user.uid = :vUid") })
 public class Comment {
 	@Id
 	@GeneratedValue
 	private int cid;
 	private String ucomment;
-	
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "mid" , referencedColumnName = "mid", nullable =false)
-    private Movie movie;
-	
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "uid" , referencedColumnName = "uid", nullable =false)
-    private User user;
+
+	@JsonIgnore
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "mid", referencedColumnName = "mid", nullable = false)
+	private Movie movie;
+
+	@JsonIgnore
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "uid", referencedColumnName = "uid", nullable = false)
+	private User user;
 }

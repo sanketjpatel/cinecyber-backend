@@ -27,9 +27,9 @@ public class CommentServiceImp implements CommentService {
 	UserDao userRepo;
 
 	@Override
-	public Comment create(Comment comment) throws ResourceNotFoundException {
-		Movie m = movieRepo.findById(comment.getMovie().getMid());
-		User u = userRepo.findById(comment.getUser().getUid());
+	public Comment create(String mid, String uid, Comment comment) throws ResourceNotFoundException {
+		Movie m = movieRepo.findById(mid);
+		User u = userRepo.findById(uid);
 		if (m != null && u != null) {
 			comment.setMovie(m);
 			comment.setUser(u);

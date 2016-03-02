@@ -7,7 +7,7 @@ import com.vdoshi3.exception.ResourceNotFoundException;
 
 public interface CommentService {
 
-	public Comment create(Comment comment) throws ResourceNotFoundException;
+	public Comment create(String mid, String uid, Comment comment) throws ResourceNotFoundException;
 
 	public List<Comment> findAll();
 
