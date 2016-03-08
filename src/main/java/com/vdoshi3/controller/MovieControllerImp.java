@@ -1,5 +1,7 @@
 package com.vdoshi3.controller;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +13,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.vdoshi3.entity.Movie;
 import com.vdoshi3.exception.ResourceAlreadyExistsException;
 import com.vdoshi3.exception.ResourceNotFoundException;
 import com.vdoshi3.service.MovieService;
+import com.vdoshi3.utils.DataLoader;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,6 +32,9 @@ import io.swagger.annotations.ApiResponses;
 public class MovieControllerImp implements MovieController {
 	@Autowired
 	MovieService service;
+	
+	@Autowired
+	DataLoader dataLoader;
 
 	@Override
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -44,9 +52,9 @@ public class MovieControllerImp implements MovieController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
 	public List<Movie> findAll(@RequestParam(value = "title", required = false) String filterByTitle) {
-		if(filterByTitle == null){
+		if (filterByTitle == null) {
 			return service.findAll();
-		}else{
+		} else {
 			return service.findByTitle(filterByTitle);
 		}
 	}
@@ -81,4 +89,12 @@ public class MovieControllerImp implements MovieController {
 		service.delete(mid);
 	}
 
+	@Override
+	@RequestMapping(value = "/loadData", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ApiOperation(value = "Load dummy data", notes = "Return the list of dummy data")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
+			@ApiResponse(code = 500, message = "Internal Server Error") })
+	public List<Movie> loadMovieData() throws ParseException, JsonParseException, JsonMappingException, IOException {
+		return dataLoader.loadMovieData();
+	}
 }

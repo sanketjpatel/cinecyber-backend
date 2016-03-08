@@ -1,4 +1,4 @@
-package com.vdoshi3;
+package com.vdoshi3.utils;
 
 import java.io.File;
 import java.io.FileReader;

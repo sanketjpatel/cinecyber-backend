@@ -41,9 +41,9 @@ public class Movie {
 	private String awards;
 	private String poster;
 	private int metascore;
-	private float imdbRating;
+	private double imdbRating;
 	private int imdbVotes;
 	private String imdbID;
 	private String mtype;
-	private float avgRating;
+	private double avgRating;
 }
