@@ -1,6 +1,8 @@
 package com.vdoshi3.entity;
 
 import java.util.Date;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -35,15 +37,16 @@ public class Movie {
 	private String director;
 	private String writer;
 	private String actors;
+	@Column(length = 400)
 	private String plot;
 	private String lang;
 	private String country;
 	private String awards;
 	private String poster;
 	private int metascore;
-	private float imdbRating;
+	private double imdbRating;
 	private int imdbVotes;
 	private String imdbID;
 	private String mtype;
-	private float avgRating;
+	private double avgRating;
 }
