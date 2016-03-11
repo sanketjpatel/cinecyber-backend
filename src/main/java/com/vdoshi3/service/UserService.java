@@ -3,6 +3,7 @@ package com.vdoshi3.service;
 import java.util.List;
 
 import com.vdoshi3.entity.User;
+import com.vdoshi3.exception.InvalidCredentialsException;
 import com.vdoshi3.exception.ResourceAlreadyExistsException;
 import com.vdoshi3.exception.ResourceNotFoundException;
 
@@ -18,4 +19,6 @@ public interface UserService {
 	public User update(String uid, User user) throws ResourceNotFoundException;
 
 	public void delete(String uid) throws ResourceNotFoundException;
+	
+	public void login(User user) throws ResourceNotFoundException, InvalidCredentialsException;
 }

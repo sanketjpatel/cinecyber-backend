@@ -42,18 +42,6 @@ public class UserDaoImp implements UserDao {
 			return null;
 		}
 	}
-
-	@Override
-	public boolean usernameExists(String username) {
-		TypedQuery<User> query = em.createNamedQuery("User.usernameExists", User.class);
-		query.setParameter("vUsername", username);
-		List<User> users = query.getResultList();
-		if (users != null && users.size() == 1) {
-			return true;
-		} else {
-			return false;
-		}
-	}
 	
 	@Override
 	public User findByEmail(String email) {

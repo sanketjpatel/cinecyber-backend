@@ -23,8 +23,7 @@ import lombok.ToString;
 @Entity
 @Table
 @NamedQueries({ @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :vEmail"),
-		@NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.uid = :vUid"),
-		@NamedQuery(name = "User.usernameExists", query = "SELECT u FROM User u WHERE u.username = :vUsername") })
+		@NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.uid = :vUid") })
 public class User {
 	@Id
 	@GeneratedValue(generator = "uuid")
@@ -33,10 +32,8 @@ public class User {
 	private String fullname;
 	@Column(unique = true)
 	private String email;
-	@Column(unique = true)
-	private String username;
 	@JsonIgnore
-	private String encrytedPassword;
+	private String encryptedPassword;
 	@Transient
 	private String userpassword;
 	private String salt;

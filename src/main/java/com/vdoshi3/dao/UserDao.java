@@ -18,5 +18,4 @@ public interface UserDao {
 
 	public void delete(User user);
 
-	boolean usernameExists(String username);
 }

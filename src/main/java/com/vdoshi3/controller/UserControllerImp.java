@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vdoshi3.entity.User;
+import com.vdoshi3.exception.InvalidCredentialsException;
 import com.vdoshi3.exception.ResourceAlreadyExistsException;
 import com.vdoshi3.exception.ResourceNotFoundException;
 import com.vdoshi3.service.UserService;
@@ -74,6 +75,16 @@ public class UserControllerImp implements UserController {
 			@ApiResponse(code = 500, message = "Internal Server Error") })
 	public void delete(@PathVariable("id") String uid) throws ResourceNotFoundException {
 		service.delete(uid);
+	}
+
+	@Override
+	@RequestMapping(value= "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ApiOperation(value = "Log in an user", notes = "Log user in")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
+			@ApiResponse(code = 404, message = "User Not Found"),
+			@ApiResponse(code = 500, message = "Internal Server Error") })
+	public void login(@RequestBody User user) throws ResourceNotFoundException, InvalidCredentialsException {
+		service.login(user);
 	}
 
 }
