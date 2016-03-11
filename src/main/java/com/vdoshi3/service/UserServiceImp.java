@@ -11,14 +11,18 @@ import org.springframework.stereotype.Service;
 import com.vdoshi3.dao.UserDao;
 import com.vdoshi3.entity.User;
 import com.vdoshi3.exception.InvalidCredentialsException;
+import com.vdoshi3.exception.InvalidSignatureException;
 import com.vdoshi3.exception.ResourceAlreadyExistsException;
 import com.vdoshi3.exception.ResourceNotFoundException;
+import com.vdoshi3.utils.JWTToken;
 
 @Service
 @Transactional
 public class UserServiceImp implements UserService {
 	@Autowired
 	private UserDao repo;
+	@Autowired
+	private JWTToken jwt;
 
 	@Override
 	public User create(User user) throws ResourceAlreadyExistsException {
@@ -79,11 +83,19 @@ public class UserServiceImp implements UserService {
 	}
 
 	@Override
-	public void login(User user) throws ResourceNotFoundException, InvalidCredentialsException {
+	public String login(User user) throws ResourceNotFoundException, InvalidCredentialsException {
 		User u = repo.findByEmail(user.getEmail());
 		if (u != null) {
 			if (BCrypt.checkpw(user.getUserpassword(), u.getEncryptedPassword())) {
 				System.out.println("It matches");
+				String jwttoken =  jwt.createJWT(u.getUid(), u.getFullname(), u.getEmail(), 2000);
+				try {
+					jwt.parseJWT(jwttoken+"hi");
+				} catch (InvalidSignatureException e) {
+					System.out.println("Helloo");
+					e.printStackTrace();
+				}
+				return jwttoken;
 			} else {
 				System.out.println("It does not match");
 				throw new InvalidCredentialsException();

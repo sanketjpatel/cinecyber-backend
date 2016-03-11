@@ -78,13 +78,13 @@ public class UserControllerImp implements UserController {
 	}
 
 	@Override
-	@RequestMapping(value= "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value= "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
 	@ApiOperation(value = "Log in an user", notes = "Log user in")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 404, message = "User Not Found"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
-	public void login(@RequestBody User user) throws ResourceNotFoundException, InvalidCredentialsException {
-		service.login(user);
+	public String login(@RequestBody User user) throws ResourceNotFoundException, InvalidCredentialsException {
+		return service.login(user);
 	}
 
 }

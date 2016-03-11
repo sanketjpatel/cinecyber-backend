@@ -103,5 +103,12 @@
 			<version>0.3m</version>
 		</dependency>
 
+		<!-- JJWT -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.6.0</version>
+		</dependency>
+
 	</dependencies>
 </project>

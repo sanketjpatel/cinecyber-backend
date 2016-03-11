@@ -18,5 +18,5 @@ public interface UserController {
 
 	public void delete(String uid) throws ResourceNotFoundException;
 	
-	public void login(User user) throws ResourceNotFoundException, InvalidCredentialsException;
+	public String login(User user) throws ResourceNotFoundException, InvalidCredentialsException;
 }
