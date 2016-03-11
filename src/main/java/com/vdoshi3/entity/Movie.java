@@ -1,6 +1,8 @@
 package com.vdoshi3.entity;
 
 import java.util.Date;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -35,6 +37,7 @@ public class Movie {
 	private String director;
 	private String writer;
 	private String actors;
+	@Column(length = 400)
 	private String plot;
 	private String lang;
 	private String country;
