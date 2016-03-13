@@ -2,8 +2,11 @@ package com.vdoshi3.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +18,7 @@ import com.vdoshi3.exception.InvalidCredentialsException;
 import com.vdoshi3.exception.ResourceAlreadyExistsException;
 import com.vdoshi3.exception.ResourceNotFoundException;
 import com.vdoshi3.service.UserService;
+import com.vdoshi3.utils.DecodedToken;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,7 +33,7 @@ public class UserControllerImp implements UserController {
 	private UserService service;
 
 	@Override
-	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/register", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Create an user", notes = "Returns the created user")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 409, message = "User Exists"),
@@ -43,7 +47,7 @@ public class UserControllerImp implements UserController {
 	@ApiOperation(value = "Find all users", notes = "Returns the list of users")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
-	public List<User> findAll() {
+	public List<User> findAll(@ModelAttribute("requestor") DecodedToken requestor) {
 		return service.findAll();
 	}
 
@@ -63,7 +67,9 @@ public class UserControllerImp implements UserController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 404, message = "User Not Found"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
-	public User update(@PathVariable("id") String uid, @RequestBody User user) throws ResourceNotFoundException {
+	public User update(@ModelAttribute("requestor") DecodedToken requestor, @PathVariable("id") String uid,
+			@RequestBody User user) throws ResourceNotFoundException {
+		System.out.println("Requestor:" + requestor.toString());
 		return service.update(uid, user);
 	}
 
@@ -78,13 +84,18 @@ public class UserControllerImp implements UserController {
 	}
 
 	@Override
-	@RequestMapping(value= "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
 	@ApiOperation(value = "Log in an user", notes = "Log user in")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 404, message = "User Not Found"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
 	public String login(@RequestBody User user) throws ResourceNotFoundException, InvalidCredentialsException {
 		return service.login(user);
+	}
+
+	@ModelAttribute("requestor")
+	public DecodedToken getDecodedToken(HttpServletRequest request) {
+		return (DecodedToken) request.getAttribute("requestor");
 	}
 
 }

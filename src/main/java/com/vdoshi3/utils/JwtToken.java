@@ -17,7 +17,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 
 @Component
-public class JWTToken {
+public class JwtToken {
 
 	public String createJWT(String id, String issuer, String subject, long ttlMillis) {
 
@@ -47,16 +47,27 @@ public class JWTToken {
 	}
 
 	// Sample method to validate and read the JWT
-	public void parseJWT(String jwt) throws InvalidSignatureException{
-		try{
-		Claims claims = Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary("apiKey"))
-				.parseClaimsJws(jwt).getBody();
-		System.out.println("ID: " + claims.getId());
-		System.out.println("Subject: " + claims.getSubject());
-		System.out.println("Issuer: " + claims.getIssuer());
-		System.out.println("Expiration: " + claims.getExpiration());
-		}catch(SignatureException vs){
-			System.out.println("Exception thrown IVS:"+vs);
+	public DecodedToken parseJWT(String jwt) throws InvalidSignatureException {
+		try {
+			Claims claims = Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary("apiKey"))
+					.parseClaimsJws(jwt).getBody();
+			String id = claims.getId();
+			String subject = claims.getSubject();
+			String issuer = claims.getIssuer();
+			long expiration = claims.getExpiration().getTime();
+			System.out.println("ID: " + claims.getId());
+			System.out.println("Subject: " + claims.getSubject());
+			System.out.println("Issuer: " + claims.getIssuer());
+			System.out.println("Expiration: " + claims.getExpiration());
+			DecodedToken dtoken = new DecodedToken();
+			dtoken.setId(id);
+			dtoken.setSubject(subject);
+			dtoken.setIssuer(issuer);
+			dtoken.setExpiration(expiration);
+			return dtoken;
+
+		} catch (SignatureException vs) {
+			System.out.println("Exception thrown IVS:" + vs);
 			throw new InvalidSignatureException();
 		}
 	}

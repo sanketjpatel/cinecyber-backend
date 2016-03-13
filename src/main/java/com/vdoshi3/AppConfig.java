@@ -4,8 +4,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import com.vdoshi3.utils.JwtInterceptor;
 
 @Configuration
 @EnableWebMvc
@@ -19,11 +22,19 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	}
 
 	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		// registry.addInterceptor(new
+		// JwtInterceptor()).excludePathPatterns("/users/register/**",
+		// "/users/login/**");
+		registry.addInterceptor(new JwtInterceptor())
+				.addPathPatterns("/users/**", "/movies/**", "/comments/**", "/ratings/**")
+				.excludePathPatterns("/users/register/**", "/users/login/**");
+		;
+	}
+
+	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**/*")
-        .allowedOrigins("*")
-        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-        .allowCredentials(false).
-        maxAge(3600);
-    }
+		registry.addMapping("/**/*").allowedOrigins("*").allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+				.allowCredentials(false).maxAge(3600);
+	}
 }

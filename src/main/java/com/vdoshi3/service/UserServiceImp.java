@@ -1,6 +1,7 @@
 package com.vdoshi3.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.transaction.Transactional;
 
@@ -14,7 +15,7 @@ import com.vdoshi3.exception.InvalidCredentialsException;
 import com.vdoshi3.exception.InvalidSignatureException;
 import com.vdoshi3.exception.ResourceAlreadyExistsException;
 import com.vdoshi3.exception.ResourceNotFoundException;
-import com.vdoshi3.utils.JWTToken;
+import com.vdoshi3.utils.JwtToken;
 
 @Service
 @Transactional
@@ -22,17 +23,25 @@ public class UserServiceImp implements UserService {
 	@Autowired
 	private UserDao repo;
 	@Autowired
-	private JWTToken jwt;
+	private JwtToken jwt;
 
 	@Override
 	public User create(User user) throws ResourceAlreadyExistsException {
 		if (repo.findByEmail(user.getEmail()) != null || repo.findById(user.getUid()) != null) {
 			throw new ResourceAlreadyExistsException();
 		} else {
+			//Create Salt
 			String salt = BCrypt.gensalt();
 			user.setSalt(salt);
+			
+			//Encrypt Password
 			String encryptedPassword = BCrypt.hashpw(user.getUserpassword(), BCrypt.gensalt());
 			user.setEncryptedPassword(encryptedPassword);
+			
+			//Add role to 'user'
+			user.setRole("user");
+			
+			//Create User
 			return repo.create(user);
 		}
 	}
@@ -88,9 +97,10 @@ public class UserServiceImp implements UserService {
 		if (u != null) {
 			if (BCrypt.checkpw(user.getUserpassword(), u.getEncryptedPassword())) {
 				System.out.println("It matches");
-				String jwttoken =  jwt.createJWT(u.getUid(), u.getFullname(), u.getEmail(), 2000);
+				String jwttoken =  jwt.createJWT(UUID.randomUUID().toString(),u.getUid(), u.getRole(), 200000);
+				System.out.println("JWT: "+jwttoken);
 				try {
-					jwt.parseJWT(jwttoken+"hi");
+					jwt.parseJWT(jwttoken);
 				} catch (InvalidSignatureException e) {
 					System.out.println("Helloo");
 					e.printStackTrace();
@@ -103,7 +113,6 @@ public class UserServiceImp implements UserService {
 		} else {
 			throw new ResourceNotFoundException();
 		}
-
 	}
 
 }
