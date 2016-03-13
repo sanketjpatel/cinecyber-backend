@@ -7,6 +7,9 @@ import javax.transaction.Transactional;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.expression.EnvironmentAccessor;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import com.vdoshi3.dao.UserDao;
@@ -19,11 +22,14 @@ import com.vdoshi3.utils.JwtToken;
 
 @Service
 @Transactional
+@PropertySource("classpath:app.properties")
 public class UserServiceImp implements UserService {
 	@Autowired
 	private UserDao repo;
 	@Autowired
 	private JwtToken jwt;
+	@Autowired
+	private Environment env;
 
 	@Override
 	public User create(User user) throws ResourceAlreadyExistsException {
@@ -97,7 +103,7 @@ public class UserServiceImp implements UserService {
 		if (u != null) {
 			if (BCrypt.checkpw(user.getUserpassword(), u.getEncryptedPassword())) {
 				System.out.println("It matches");
-				String jwttoken =  jwt.createJWT(UUID.randomUUID().toString(),u.getUid(), u.getRole(), 200000);
+				String jwttoken =  jwt.createJWT(UUID.randomUUID().toString(),u.getUid(), u.getRole(), Long.parseLong(env.getProperty("jwt.ttl")));
 				System.out.println("JWT: "+jwttoken);
 				try {
 					jwt.parseJWT(jwttoken);
