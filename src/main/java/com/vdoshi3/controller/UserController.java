@@ -2,6 +2,8 @@ package com.vdoshi3.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+
 import com.vdoshi3.entity.User;
 import com.vdoshi3.exception.InvalidCredentialsException;
 import com.vdoshi3.exception.ResourceAlreadyExistsException;
@@ -19,5 +21,5 @@ public interface UserController {
 
 	public void delete(String uid) throws ResourceNotFoundException;
 
-	public String login(User user) throws ResourceNotFoundException, InvalidCredentialsException;
+	public ResponseEntity<String> login(User user) throws ResourceNotFoundException, InvalidCredentialsException;
 }

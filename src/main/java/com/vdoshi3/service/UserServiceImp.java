@@ -105,12 +105,6 @@ public class UserServiceImp implements UserService {
 				System.out.println("It matches");
 				String jwttoken =  jwt.createJWT(UUID.randomUUID().toString(),u.getUid(), u.getRole(), Long.parseLong(env.getProperty("jwt.ttl")));
 				System.out.println("JWT: "+jwttoken);
-				try {
-					jwt.parseJWT(jwttoken);
-				} catch (InvalidSignatureException e) {
-					System.out.println("Helloo");
-					e.printStackTrace();
-				}
 				return jwttoken;
 			} else {
 				System.out.println("It does not match");

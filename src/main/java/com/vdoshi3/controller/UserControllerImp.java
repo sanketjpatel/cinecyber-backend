@@ -5,7 +5,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mysql.fabric.Response;
 import com.vdoshi3.entity.User;
 import com.vdoshi3.exception.InvalidCredentialsException;
 import com.vdoshi3.exception.ResourceAlreadyExistsException;
@@ -84,13 +88,16 @@ public class UserControllerImp implements UserController {
 	}
 
 	@Override
-	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.ALL_VALUE)
 	@ApiOperation(value = "Log in an user", notes = "Log user in")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 404, message = "User Not Found"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
-	public String login(@RequestBody User user) throws ResourceNotFoundException, InvalidCredentialsException {
-		return service.login(user);
+	public ResponseEntity<String> login(@RequestBody User user) throws ResourceNotFoundException, InvalidCredentialsException {
+		HttpHeaders responseHeaders = new HttpHeaders();
+		String token = service.login(user);
+		responseHeaders.set("Authorization", "Bearer " + token);
+		return new ResponseEntity<String>("Welcome", responseHeaders, HttpStatus.CREATED);
 	}
 
 	@ModelAttribute("requestor")

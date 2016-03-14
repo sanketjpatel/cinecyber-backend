@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import com.vdoshi3.exception.InvalidSignatureException;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -47,7 +48,7 @@ public class JwtToken {
 	}
 
 	// Sample method to validate and read the JWT
-	public DecodedToken parseJWT(String jwt) throws InvalidSignatureException {
+	public DecodedToken parseJWT(String jwt) throws InvalidSignatureException, ExpiredJwtException {
 		try {
 			Claims claims = Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary("apiKey"))
 					.parseClaimsJws(jwt).getBody();
