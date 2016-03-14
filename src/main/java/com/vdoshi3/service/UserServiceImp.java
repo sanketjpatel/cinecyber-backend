@@ -101,7 +101,7 @@ public class UserServiceImp implements UserService {
 		if (u != null) {
 			if (BCrypt.checkpw(user.getUserpassword(), u.getEncryptedPassword())) {
 				System.out.println("It matches");
-				String jwttoken =  jwt.createJWT(UUID.randomUUID().toString(),u.getUid(), u.getRole(), Long.parseLong(env.getProperty("jwt.ttl")));
+				String jwttoken =  jwt.createJWT(u.getUid(),u.getEmail(), u.getRole(), Long.parseLong(env.getProperty("jwt.ttl")));
 				System.out.println("JWT: "+jwttoken);
 				return jwttoken;
 			} else {

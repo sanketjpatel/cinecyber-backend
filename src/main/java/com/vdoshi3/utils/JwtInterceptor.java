@@ -1,5 +1,8 @@
 package com.vdoshi3.utils;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,12 +14,10 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.vdoshi3.exception.NotLoggedInException;
 
-
 @Component
-@PropertySource("classpath:app.properties")
 public class JwtInterceptor extends HandlerInterceptorAdapter {
-//	@Autowired
-//	Environment env;
+	// @Autowired
+	// Environment env;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -31,12 +32,13 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
 		DecodedToken dtoken = jwt.parseJWT(token.substring(7));
 
 		if (validateUser(dtoken)) {
-			if (refreshToken(dtoken.getExpiration())) {
-				newToken = jwt.createJWT(UUID.randomUUID().toString(), dtoken.getIssuer(), dtoken.getSubject(),
-						80000);
+			if (refreshToken(80000, dtoken.getExpiration())) {
+
+				newToken = jwt.createJWT(dtoken.getId(), dtoken.getIssuer(), dtoken.getSubject(),
+						86400);
 			}
 			request.setAttribute("requestor", dtoken);
-			response.addHeader("Authorization", "Bearer "+newToken);
+			response.addHeader("Authorization", "Bearer " + newToken);
 			return true;
 		} else {
 			throw new NotLoggedInException();
@@ -53,14 +55,36 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
 		return false;
 	}
 
-	public boolean refreshToken(long exp) {
+	public boolean refreshToken(long ttr, long exp) {
 		boolean flag = false;
 		long nowMillis = System.currentTimeMillis();
-		if (nowMillis - exp <= 86400) {
+		if (nowMillis - exp <= ttr) {
 			flag = true;
 		}
 		System.out.println("Refresh the token:" + flag);
 		return flag;
 	}
+
+	// private Properties getProperties(){
+	// Properties props = new Properties();
+	// InputStream is = null;
+	// try{
+	// is =
+	// JwtInterceptor.class.getResourceAsStream("/resources/app.properties");
+	// props.load(is);
+	// }catch(IOException fe){
+	// System.out.println(fe);
+	// }finally{
+	// if(is!=null){
+	// try {
+	// is.close();
+	// } catch (IOException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// }
+	// }
+	// return props;
+	// }
 
 }
