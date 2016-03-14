@@ -8,14 +8,12 @@ import javax.transaction.Transactional;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.expression.EnvironmentAccessor;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import com.vdoshi3.dao.UserDao;
 import com.vdoshi3.entity.User;
 import com.vdoshi3.exception.InvalidCredentialsException;
-import com.vdoshi3.exception.InvalidSignatureException;
 import com.vdoshi3.exception.ResourceAlreadyExistsException;
 import com.vdoshi3.exception.ResourceNotFoundException;
 import com.vdoshi3.utils.JwtToken;

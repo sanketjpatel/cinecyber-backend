@@ -1,21 +1,14 @@
 package com.vdoshi3.utils;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vdoshi3.controller.UserControllerImp;
 import com.vdoshi3.entity.Movie;
-import com.vdoshi3.entity.User;
 import com.vdoshi3.utils.JsonReader;
 
 public class Tester {
