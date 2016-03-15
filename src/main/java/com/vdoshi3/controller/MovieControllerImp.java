@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,7 +54,10 @@ public class MovieControllerImp implements MovieController {
 	@ApiOperation(value = "Find all movies", notes = "Returns the list of movies")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
-	public List<Movie> findAll(@RequestParam(value = "title", required = false) String filterByTitle) {
+	public List<Movie> findAll(@RequestParam(value = "title", required = false) String filterByTitle, HttpServletRequest hr, HttpServletResponse res) {
+		String token = hr.getHeader("Authorization");
+		System.out.println("Authorization:"+token);
+//		res.addHeader("", arg1);
 		if (filterByTitle == null) {
 			return service.findAll();
 		} else {

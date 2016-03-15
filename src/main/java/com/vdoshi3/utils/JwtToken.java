@@ -67,7 +67,7 @@ public class JwtToken {
 			dtoken.setExpiration(expiration);
 			return dtoken;
 
-		} catch (SignatureException vs) {
+		} catch (ExpiredJwtException|SignatureException vs) {
 			System.out.println("Exception thrown IVS:" + vs);
 			throw new InvalidSignatureException();
 		}

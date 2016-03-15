@@ -1,7 +1,6 @@
 package com.vdoshi3.service;
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.transaction.Transactional;
 
@@ -16,6 +15,7 @@ import com.vdoshi3.entity.User;
 import com.vdoshi3.exception.InvalidCredentialsException;
 import com.vdoshi3.exception.ResourceAlreadyExistsException;
 import com.vdoshi3.exception.ResourceNotFoundException;
+import com.vdoshi3.utils.DefaultProfilePic;
 import com.vdoshi3.utils.JwtToken;
 
 @Service
@@ -28,6 +28,8 @@ public class UserServiceImp implements UserService {
 	private JwtToken jwt;
 	@Autowired
 	private Environment env;
+	@Autowired
+	private DefaultProfilePic dp;
 
 	@Override
 	public User create(User user) throws ResourceAlreadyExistsException {
@@ -45,6 +47,9 @@ public class UserServiceImp implements UserService {
 			//Add role to 'user'
 			user.setRole("user");
 			
+			//Add a random profile pic if missing
+			if(user.getProfilePic() == null){}
+				user.setProfilePic(dp.getRandomPicture());
 			//Create User
 			return repo.create(user);
 		}

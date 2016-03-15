@@ -3,6 +3,7 @@ package com.vdoshi3.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vdoshi3.entity.LoginResponse;
 import com.vdoshi3.entity.User;
 import com.vdoshi3.exception.InvalidCredentialsException;
 import com.vdoshi3.exception.ResourceAlreadyExistsException;
@@ -27,6 +29,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.ResponseHeader;
 
 @RestController
 @RequestMapping("/users")
@@ -87,16 +90,25 @@ public class UserControllerImp implements UserController {
 	}
 
 	@Override
-	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.ALL_VALUE)
+	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Log in an user", notes = "Log user in")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 404, message = "User Not Found"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
-	public ResponseEntity<String> login(@RequestBody User user) throws ResourceNotFoundException, InvalidCredentialsException {
-		HttpHeaders responseHeaders = new HttpHeaders();
+	public LoginResponse login(@RequestBody User user, HttpServletResponse hr) throws ResourceNotFoundException, InvalidCredentialsException {
+//		HttpHeaders responseHeaders = new HttpHeaders();
 		String token = service.login(user);
-		responseHeaders.set("Authorization", "Bearer " + token);
-		return new ResponseEntity<String>("Welcome", responseHeaders, HttpStatus.CREATED);
+//		responseHeaders.set("Authorization", "Bearer " + token);
+//		hr.addHeader("Authorization", "Bearer " + token);
+//		return new ResponseEntity<String>("Welcome", responseHeaders, HttpStatus.CREATED);
+		LoginResponse lr= new LoginResponse();
+		lr.setToken(token);
+		hr.addHeader("Authorization", "Bearer " + token);
+		hr.addHeader("Access-Control-Expose-Headers", "Authorization");
+		hr.addHeader("Access-Control-Allow-Headers","Authorization");
+//		hr.addHeader("Access-Control-Allow-Origin", "*");
+		System.out.println("Header is:"+hr.getHeader("Authorization"));
+		return lr;
 	}
 
 	@ModelAttribute("requestor")

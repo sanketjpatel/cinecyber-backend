@@ -19,4 +19,11 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 		return new String[] { "/api/*" };
 	}
 	
+//	@Override
+//	  protected Filter[] getServletFilters() {
+//	    return new Filter[] {
+//	      new JwtFilter();
+//	    };
+//	  }
+	
 }

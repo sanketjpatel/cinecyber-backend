@@ -36,6 +36,9 @@ public class User {
 	private String encryptedPassword;
 	@Transient
 	private String userpassword;
+	@JsonIgnore
 	private String salt;
+	@JsonIgnore
 	private String role;
+	private String profilePic;
 }
