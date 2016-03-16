@@ -14,7 +14,7 @@ import com.vdoshi3.exception.ResourceNotFoundException;
 import com.vdoshi3.utils.DecodedToken;
 
 public interface UserController {
-	public User create(User user) throws ResourceAlreadyExistsException;
+	public User create(User user, HttpServletResponse hr) throws ResourceAlreadyExistsException;
 
 	public List<User> findAll(DecodedToken requestor);
 

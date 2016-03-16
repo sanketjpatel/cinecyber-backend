@@ -21,20 +21,19 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
 	}
 
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		// registry.addInterceptor(new
-		// JwtInterceptor()).excludePathPatterns("/users/register/**",
-		// "/users/login/**");
-		registry.addInterceptor(new JwtInterceptor())
-				.addPathPatterns("/users/**", "/movies/**", "/comments/**", "/ratings/**")
-				.excludePathPatterns("/users/register/**", "/users/login/**");
-		;
-	}
+//	@Override
+//	public void addInterceptors(InterceptorRegistry registry) {
+//		registry.addInterceptor(new JwtInterceptor())
+//				.addPathPatterns("/users/api/**", "/movies/api/**", "/comments/api/**", "/ratings/api/**")
+//				.excludePathPatterns("/users/register/**", "/users/login/**");
+//		;
+//	}
 
-	@Override
-	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**/*").allowedOrigins("http://localhost:3045").allowedHeaders("*").allowedMethods("GET", "POST", "PUT", "DELETE")
-				.allowCredentials(true).maxAge(3600);
-	}
+//	@Override
+//	public void addCorsMappings(CorsRegistry registry) {
+//		registry.addMapping("/**").allowedOrigins("http://localhost:3045").allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+//				.allowedHeaders(
+//						"x-requested-with, Content-Type,accept,Origin,Access-Control-Request-Method, Access-Control-Request-Headers,Authorization,Access-Control-Allow-Origin")
+//				.maxAge(3600);
+//	}
 }

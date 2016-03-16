@@ -2,11 +2,13 @@ package com.vdoshi3;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import com.vdoshi3.utils.JwtFilter;
+
 public class AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class[] { AppConfig.class, SwaggerConfig.class, JPAConfig.class };
+		return new Class[] { AppConfig.class, SwaggerConfig.class, JPAConfig.class, JwtFilter.class };
 	}
 
 	@Override
@@ -16,7 +18,7 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
 	@Override
 	protected String[] getServletMappings() {
-		return new String[] { "/api/*" };
+		return new String[] { "/*" };
 	}
 	
 //	@Override

@@ -30,7 +30,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/movies")
+@RequestMapping("/api/movies")
 @Api(tags = "movies", description = "service to perform CRUD on Movies")
 public class MovieControllerImp implements MovieController {
 	@Autowired

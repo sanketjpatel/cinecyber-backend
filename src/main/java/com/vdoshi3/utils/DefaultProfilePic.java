@@ -25,7 +25,7 @@ public class DefaultProfilePic {
 	
 	public int randInt(int max) {
 
-	    int randomNum = (int) Math.round((Math.random() * max));
+	    int randomNum = (int) Math.floor((Math.random() * max));
 	    return randomNum;
 	}
 }

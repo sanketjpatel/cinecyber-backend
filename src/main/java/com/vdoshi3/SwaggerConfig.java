@@ -21,7 +21,7 @@ public class SwaggerConfig {
 	      .paths(PathSelectors.any())
 	      .build()
 	      .apiInfo(apiInfo())
-	      .pathMapping("/api");
+	      .pathMapping("/");
 	}
 	 
 	private ApiInfo apiInfo() {
