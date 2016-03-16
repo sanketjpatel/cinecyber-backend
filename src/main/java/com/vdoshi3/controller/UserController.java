@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.http.ResponseEntity;
-
 import com.vdoshi3.entity.LoginResponse;
 import com.vdoshi3.entity.User;
 import com.vdoshi3.exception.InvalidCredentialsException;
@@ -22,7 +20,8 @@ public interface UserController {
 
 	public User update(DecodedToken requestor, String uid, User user) throws ResourceNotFoundException;
 
-	public void delete(String uid) throws ResourceNotFoundException;
+	public void delete(DecodedToken requestor, String uid) throws ResourceNotFoundException;
 
-	public LoginResponse login(User user, HttpServletResponse hr) throws ResourceNotFoundException, InvalidCredentialsException;
+	public LoginResponse login(User user, HttpServletResponse hr)
+			throws ResourceNotFoundException, InvalidCredentialsException;
 }

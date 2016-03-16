@@ -22,15 +22,15 @@ import lombok.ToString;
 @Entity
 @Table
 @NamedQueries({ @NamedQuery(name = "Rating.findByRid", query = "SELECT r FROM Rating r WHERE r.rid = :vRid"),
-		@NamedQuery(name = "Rating.findByMid", query = " SELECT c FROM Comment c WHERE c.movie.mid = :vMid"),
-		@NamedQuery(name = "Rating.findByUid", query = " SELECT c FROM Comment c WHERE c.user.uid = :vUid"),
-		@NamedQuery(name = "Rating.findByMidUid", query = " SELECT c FROM Comment c WHERE c.movie.mid = :vMid AND c.user.uid = :vUid") })
+		@NamedQuery(name = "Rating.findByMid", query = " SELECT r FROM Rating r WHERE r.movie.mid = :vMid"),
+		@NamedQuery(name = "Rating.findByUid", query = " SELECT r FROM Rating r WHERE r.user.uid = :vUid"),
+		@NamedQuery(name = "Rating.findByMidUid", query = " SELECT r FROM Rating r WHERE r.movie.mid = :vMid AND r.user.uid = :vUid") })
 public class Rating {
 
 	@Id
 	@GeneratedValue
 	private int rid;
-	private float urating;
+	private double urating;
 
 	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL)

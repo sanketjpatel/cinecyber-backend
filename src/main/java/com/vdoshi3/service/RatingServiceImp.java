@@ -26,6 +26,7 @@ public class RatingServiceImp implements RatingService {
 	@Autowired
 	UserDao userRepo;
 
+	
 	@Override
 	public Rating create(String mid, String uid, Rating rating) throws ResourceNotFoundException {
 		Movie m = movieRepo.findById(mid);
@@ -33,6 +34,15 @@ public class RatingServiceImp implements RatingService {
 		if (m != null && u != null) {
 			rating.setMovie(m);
 			rating.setUser(u);
+			
+//			double ccRating = m.getCcRating();
+//			double ccVotes = m.getCcVotes();
+//			double newCcRating = ((ccRating*ccVotes)+rating.getUrating())/ccVotes;
+//			
+//			m.setCcRating(newCcRating);
+//			m.setCcVotes(ccVotes++);
+//			movieRepo.update(m);
+//			
 			return repo.create(rating);
 		} else {
 			throw new ResourceNotFoundException();

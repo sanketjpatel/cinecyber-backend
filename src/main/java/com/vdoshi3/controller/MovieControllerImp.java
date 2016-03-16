@@ -30,7 +30,6 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/api/movies")
 @Api(tags = "movies", description = "service to perform CRUD on Movies")
 public class MovieControllerImp implements MovieController {
 	@Autowired
@@ -40,7 +39,7 @@ public class MovieControllerImp implements MovieController {
 	DataLoader dataLoader;
 
 	@Override
-	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "api/movies",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Create movie", notes = "Returns the created movie")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Created"),
 			@ApiResponse(code = 409, message = "Movie already exists"),
@@ -50,7 +49,7 @@ public class MovieControllerImp implements MovieController {
 	}
 
 	@Override
-	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/movies", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Find all movies", notes = "Returns the list of movies")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
@@ -66,7 +65,7 @@ public class MovieControllerImp implements MovieController {
 	}
 
 	@Override
-	@RequestMapping(value = "{mid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "api/movies/{mid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Find movie by movie id", notes = "returns the movie")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 404, message = "Not Found"),
@@ -76,7 +75,7 @@ public class MovieControllerImp implements MovieController {
 	}
 
 	@Override
-	@RequestMapping(value = "{mid}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "api/movies/{mid}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Update a movie", notes = "Returns the modified movie")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 404, message = "Not found"),
@@ -86,7 +85,7 @@ public class MovieControllerImp implements MovieController {
 	}
 
 	@Override
-	@RequestMapping(value = "{mid}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "api/movies/{mid}", method = RequestMethod.DELETE)
 	@ApiOperation(value = "Delete a movie", notes = "Deletes the specified movie")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 404, message = "Not found"),
@@ -96,7 +95,7 @@ public class MovieControllerImp implements MovieController {
 	}
 
 	@Override
-	@RequestMapping(value = "/loadData", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "movies/loadData", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Load dummy data", notes = "Return the list of dummy data")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })

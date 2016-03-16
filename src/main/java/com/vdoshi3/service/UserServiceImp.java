@@ -11,6 +11,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import com.vdoshi3.dao.UserDao;
+import com.vdoshi3.entity.LoginResponse;
 import com.vdoshi3.entity.User;
 import com.vdoshi3.exception.InvalidCredentialsException;
 import com.vdoshi3.exception.ResourceAlreadyExistsException;
@@ -101,14 +102,18 @@ public class UserServiceImp implements UserService {
 	}
 
 	@Override
-	public String login(User user) throws ResourceNotFoundException, InvalidCredentialsException {
+	public LoginResponse login(User user) throws ResourceNotFoundException, InvalidCredentialsException {
 		User u = repo.findByEmail(user.getEmail());
 		if (u != null) {
 			if (BCrypt.checkpw(user.getUserpassword(), u.getEncryptedPassword())) {
 				System.out.println("It matches");
 				String jwttoken =  jwt.createJWT(u.getUid(),u.getEmail(), u.getRole(), Long.parseLong(env.getProperty("jwt.ttl")));
 				System.out.println("JWT: "+jwttoken);
-				return jwttoken;
+				
+				LoginResponse loginresponse= new LoginResponse();
+				loginresponse.setToken("Bearer "+jwttoken);
+				loginresponse.setUid(u.getUid());
+				return loginresponse;
 			} else {
 				System.out.println("It does not match");
 				throw new InvalidCredentialsException();

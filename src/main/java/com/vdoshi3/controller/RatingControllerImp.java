@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vdoshi3.entity.Movie;
 import com.vdoshi3.entity.Rating;
 import com.vdoshi3.exception.ResourceNotFoundException;
+import com.vdoshi3.service.MovieService;
 import com.vdoshi3.service.RatingService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

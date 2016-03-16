@@ -48,5 +48,6 @@ public class Movie {
 	private int imdbVotes;
 	private String imdbID;
 	private String mtype;
-	private double avgRating;
+	private double ccRating;
+	private double ccVotes;
 }
