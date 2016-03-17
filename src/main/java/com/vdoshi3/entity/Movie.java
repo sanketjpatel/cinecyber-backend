@@ -12,6 +12,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -24,6 +26,7 @@ import lombok.ToString;
 @NamedQueries({ @NamedQuery(name = "Movie.findById", query = "SELECT m FROM Movie m WHERE m.mid = :vMid"),
 		@NamedQuery(name = "Movie.findByTitle", query = "SELECT m FROM Movie m WHERE m.title LIKE :vTitle") })
 public class Movie {
+	@JsonView(View.Public.class)
 	@Id
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -42,6 +45,7 @@ public class Movie {
 	private String lang;
 	private String country;
 	private String awards;
+	@JsonView(View.Public.class)
 	private String poster;
 	private int metascore;
 	private double imdbRating;

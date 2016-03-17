@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.vdoshi3.entity.Comment;
+import com.vdoshi3.entity.View;
 import com.vdoshi3.exception.ResourceNotFoundException;
 import com.vdoshi3.service.CommentService;
 import io.swagger.annotations.Api;
@@ -36,7 +38,8 @@ public class CommentControllerImp implements CommentController {
 			@RequestBody Comment comment) throws ResourceNotFoundException {
 		return service.create(mid, uid, comment);
 	}
-
+	
+	@JsonView(View.Public.class)
 	@Override
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Find all comments", notes = "Returns the list of comments")

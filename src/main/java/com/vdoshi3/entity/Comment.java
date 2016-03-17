@@ -11,6 +11,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -28,15 +29,19 @@ import lombok.ToString;
 public class Comment {
 	@Id
 	@GeneratedValue
+	@JsonView(View.Public.class)
 	private int cid;
+	@JsonView(View.Public.class)
 	private String ucomment;
 
-	@JsonIgnore
+//	@JsonIgnore
+	@JsonView(View.Public.class)
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "mid", referencedColumnName = "mid", nullable = false)
 	private Movie movie;
 
-	@JsonIgnore
+//	@JsonIgnore
+	@JsonView(View.Public.class)
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "uid", referencedColumnName = "uid", nullable = false)
 	private User user;
