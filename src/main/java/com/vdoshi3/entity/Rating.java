@@ -11,6 +11,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -26,18 +27,19 @@ import lombok.ToString;
 		@NamedQuery(name = "Rating.findByUid", query = " SELECT r FROM Rating r WHERE r.user.uid = :vUid"),
 		@NamedQuery(name = "Rating.findByMidUid", query = " SELECT r FROM Rating r WHERE r.movie.mid = :vMid AND r.user.uid = :vUid") })
 public class Rating {
-
+	@JsonView(View.Public.class)
 	@Id
 	@GeneratedValue
 	private int rid;
+	@JsonView(View.Public.class)
 	private double urating;
 
-	@JsonIgnore
+	@JsonView(View.Public.class)
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "mid", referencedColumnName = "mid", nullable = false)
 	private Movie movie;
 
-	@JsonIgnore
+	@JsonView(View.Public.class)
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "uid", referencedColumnName = "uid", nullable = false)
 	private User user;

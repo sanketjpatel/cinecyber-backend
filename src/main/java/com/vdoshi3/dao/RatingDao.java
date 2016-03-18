@@ -18,6 +18,8 @@ public interface RatingDao {
 
 	public List<Rating> findByMidUid(String mid, String uid);
 
+	public Rating update(Rating rating);
+	
 	public void delete(Rating rating);
 
 }

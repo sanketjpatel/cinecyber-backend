@@ -12,7 +12,7 @@ public interface RatingController {
 	public List<Rating> findAll(String filterByMid, String filterByUid);
 
 	public Rating findByRid(String rid) throws ResourceNotFoundException;
-
+	
 	public void delete(String rid) throws ResourceNotFoundException;
 
 }

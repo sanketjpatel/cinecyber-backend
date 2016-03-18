@@ -1,5 +1,6 @@
 package com.vdoshi3.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.vdoshi3.entity.Movie;
 import com.vdoshi3.entity.Rating;
+import com.vdoshi3.entity.View;
 import com.vdoshi3.exception.ResourceNotFoundException;
 import com.vdoshi3.service.MovieService;
 import com.vdoshi3.service.RatingService;
@@ -29,16 +32,18 @@ public class RatingControllerImp implements RatingController {
 	@Autowired
 	RatingService service;
 
+	@JsonView(View.Public.class)
 	@Override
-	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Create a rating", notes = "Returns the created rating")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Created"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
 	public Rating create(@RequestParam("mid") String mid, @RequestParam("uid") String uid, @RequestBody Rating rating)
 			throws ResourceNotFoundException {
-		return service.create(mid, uid, rating);
+			return service.create(mid, uid, rating);
 	}
 
+	@JsonView(View.Public.class)
 	@Override
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Find all ratings", notes = "Returns the list of ratings")
@@ -57,6 +62,7 @@ public class RatingControllerImp implements RatingController {
 		}
 	}
 
+	@JsonView(View.Public.class)
 	@Override
 	@RequestMapping(value = "{rid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Find rating by id", notes = "Returns the rating")

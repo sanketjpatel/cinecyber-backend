@@ -29,6 +29,7 @@ public class CommentControllerImp implements CommentController {
 	@Autowired
 	CommentService service;
 
+	@JsonView(View.Public.class)
 	@Override
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Create a comment", notes = "Returns the created comment")

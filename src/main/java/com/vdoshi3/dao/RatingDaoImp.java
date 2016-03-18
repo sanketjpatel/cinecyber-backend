@@ -8,6 +8,7 @@ import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
+import com.vdoshi3.entity.Movie;
 import com.vdoshi3.entity.Rating;
 
 @Repository
@@ -61,6 +62,11 @@ public class RatingDaoImp implements RatingDao {
 		return query.getResultList();
 	}
 
+	@Override
+	public Rating update(Rating rating) {
+		return em.merge(rating);
+	}
+	
 	@Override
 	public void delete(Rating rating) {
 		em.remove(rating);

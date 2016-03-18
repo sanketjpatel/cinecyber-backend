@@ -18,6 +18,8 @@ public interface RatingService {
 	public List<Rating> findByUid(String uid);
 
 	public List<Rating> findByMidUid(String mid, String uid);
+	
+	public Rating update(Rating rating) throws ResourceNotFoundException;
 
 	public void delete(String rid) throws ResourceNotFoundException;
 
