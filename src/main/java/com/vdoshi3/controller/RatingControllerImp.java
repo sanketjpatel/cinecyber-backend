@@ -1,6 +1,5 @@
 package com.vdoshi3.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.vdoshi3.entity.Movie;
 import com.vdoshi3.entity.Rating;
 import com.vdoshi3.entity.View;
 import com.vdoshi3.exception.ResourceNotFoundException;
-import com.vdoshi3.service.MovieService;
 import com.vdoshi3.service.RatingService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

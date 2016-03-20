@@ -8,7 +8,6 @@ import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
-import com.vdoshi3.entity.Movie;
 import com.vdoshi3.entity.Rating;
 
 @Repository

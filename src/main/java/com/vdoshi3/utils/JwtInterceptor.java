@@ -1,21 +1,13 @@
 package com.vdoshi3.utils;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.vdoshi3.exception.InvalidSignatureException;
 import com.vdoshi3.exception.NotLoggedInException;
 
-import io.jsonwebtoken.SignatureException;
 
 @Component
 public class JwtInterceptor extends HandlerInterceptorAdapter {
@@ -32,19 +24,11 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 
-//		response.setHeader(CREDENTIALS_NAME, "true");
-//		response.setHeader(ORIGIN_NAME, "http://localhost:3045");
-//		response.setHeader(METHODS_NAME, "GET, OPTIONS, POST, PUT, DELETE");
-//		response.setHeader(HEADERS_NAME,
-//				"Origin, X-Requested-With, Content-Type, Accept,Access-Control-Expose-Headers,Access-Control-Allow-Headers,Authorization");
-//		response.setHeader(MAX_AGE_NAME, "3600");
-
 		String s = request.getMethod();
 		if (s.equals("OPTIONS")) {
 			System.out.println("Options method called");
 			return false;
 		}
-		// response.addHeader("Access-Control-Allow-Origin", "*");
 		String newToken = "";
 		String token = request.getHeader("Authorization");
 		System.out.println("Got request with authorization header :" + token);
@@ -54,11 +38,9 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
 		}
 		JwtToken jwt = new JwtToken();
 		DecodedToken dtoken;
-		// try{
+		
 		dtoken = jwt.parseJWT(token.substring(7));
-		// }catch(SignatureException sg){
-		// throw new InvalidSignatureException();
-		// }
+
 		if (validateUser(dtoken)) {
 			if (refreshToken(80000, dtoken.getExpiration())) {
 

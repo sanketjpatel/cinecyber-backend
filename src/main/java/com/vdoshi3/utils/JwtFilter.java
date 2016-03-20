@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.filter.GenericFilterBean;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureException;
 
 @WebFilter(urlPatterns = "/api/*")
@@ -46,23 +44,23 @@ public class JwtFilter extends GenericFilterBean {
         chain.doFilter(req, res);
     }
     
-    private boolean validateUser(DecodedToken dtoken) {
-		System.out.println("DTOKEN recived to validate:" + dtoken);
-		long nowMillis = System.currentTimeMillis();
-		if (dtoken.getExpiration() > nowMillis) {
-			return true;
-		}
-		return false;
-	}
-
-	public boolean refreshToken(long ttr, long exp) {
-		boolean flag = false;
-		long nowMillis = System.currentTimeMillis();
-		if (nowMillis - exp <= ttr) {
-			flag = true;
-		}
-		System.out.println("Refresh the token:" + flag);
-		return flag;
-	}
+//    private boolean validateUser(DecodedToken dtoken) {
+//		System.out.println("DTOKEN recived to validate:" + dtoken);
+//		long nowMillis = System.currentTimeMillis();
+//		if (dtoken.getExpiration() > nowMillis) {
+//			return true;
+//		}
+//		return false;
+//	}
+//
+//	public boolean refreshToken(long ttr, long exp) {
+//		boolean flag = false;
+//		long nowMillis = System.currentTimeMillis();
+//		if (nowMillis - exp <= ttr) {
+//			flag = true;
+//		}
+//		System.out.println("Refresh the token:" + flag);
+//		return flag;
+//	}
 
 }
