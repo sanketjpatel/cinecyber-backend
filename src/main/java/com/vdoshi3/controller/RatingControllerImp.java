@@ -25,7 +25,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/ratings")
+@RequestMapping("api/ratings")
 @Api(tags = "ratings", description = "Ratings API")
 public class RatingControllerImp implements RatingController {
 

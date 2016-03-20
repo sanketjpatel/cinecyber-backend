@@ -3,6 +3,7 @@ package com.vdoshi3.entity;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -34,6 +35,7 @@ public class Comment {
 	@JsonView(View.Public.class)
 	private int cid;
 	@JsonView(View.Public.class)
+	@Column(length = 400)
 	private String ucomment;
 	@JsonView(View.Public.class)
 	private Date timestamp;

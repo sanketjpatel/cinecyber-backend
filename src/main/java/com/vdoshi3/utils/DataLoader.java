@@ -62,7 +62,7 @@ public class DataLoader {
 			movie.setImdbID(movieNode.get("imdbID").asText());
 			movie.setMtype(movieNode.get("Type").asText());
 			
-			System.out.println(movie.toString());
+//			System.out.println(movie.toString());
 			movies.add(repo.create(movie));
 		}
 		return movies;

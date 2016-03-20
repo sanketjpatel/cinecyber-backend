@@ -31,6 +31,7 @@ public class User {
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	private String uid;
+	@JsonView(View.Public.class)
 	private String fullname;
 	@JsonView(View.Public.class)
 	@Column(unique = true)
