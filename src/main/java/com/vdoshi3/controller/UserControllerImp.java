@@ -71,9 +71,13 @@ public class UserControllerImp implements UserController {
 			@ApiResponse(code = 404, message = "User Not Found"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
 	public User update(@ModelAttribute("requestor") DecodedToken requestor, @PathVariable("id") String uid,
-			@RequestBody User user) throws ResourceNotFoundException {
+			@RequestBody User user) throws ResourceNotFoundException, InvalidCredentialsException {
 		System.out.println("Requestor:" + requestor.toString());
-		return service.update(uid, user);
+		if (requestor.getId().equals(uid)) {
+			return service.update(uid, user);
+		} else {
+			throw new InvalidCredentialsException();
+		}
 	}
 
 	@Override
@@ -82,8 +86,13 @@ public class UserControllerImp implements UserController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 404, message = "User Not Found"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
-	public void delete(@ModelAttribute("requestor") DecodedToken requestor, @PathVariable("id") String uid) throws ResourceNotFoundException {
-		service.delete(uid);
+	public void delete(@ModelAttribute("requestor") DecodedToken requestor, @PathVariable("id") String uid)
+			throws ResourceNotFoundException, InvalidCredentialsException {
+		if (requestor.getSubject().equals("admin")) {
+			service.delete(uid);
+		} else {
+			throw new InvalidCredentialsException();
+		}
 	}
 
 	@Override
@@ -92,7 +101,8 @@ public class UserControllerImp implements UserController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 404, message = "User Not Found"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
-	public LoginResponse login(@RequestBody User user, HttpServletResponse hr) throws ResourceNotFoundException, InvalidCredentialsException {
+	public LoginResponse login(@RequestBody User user, HttpServletResponse hr)
+			throws ResourceNotFoundException, InvalidCredentialsException {
 		LoginResponse lr = service.login(user);
 		hr.addHeader("Authorization", "Bearer " + lr.getToken());
 		return lr;

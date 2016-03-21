@@ -18,9 +18,9 @@ public interface UserController {
 
 	public User findById(String uid) throws ResourceNotFoundException;
 
-	public User update(DecodedToken requestor, String uid, User user) throws ResourceNotFoundException;
+	public User update(DecodedToken requestor, String uid, User user) throws ResourceNotFoundException, InvalidCredentialsException;
 
-	public void delete(DecodedToken requestor, String uid) throws ResourceNotFoundException;
+	public void delete(DecodedToken requestor, String uid) throws ResourceNotFoundException, InvalidCredentialsException;
 
 	public LoginResponse login(User user, HttpServletResponse hr)
 			throws ResourceNotFoundException, InvalidCredentialsException;

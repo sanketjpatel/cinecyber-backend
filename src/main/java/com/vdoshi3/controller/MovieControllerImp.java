@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,10 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.vdoshi3.entity.Movie;
+import com.vdoshi3.exception.InvalidCredentialsException;
 import com.vdoshi3.exception.ResourceAlreadyExistsException;
 import com.vdoshi3.exception.ResourceNotFoundException;
 import com.vdoshi3.service.MovieService;
 import com.vdoshi3.utils.DataLoader;
+import com.vdoshi3.utils.DecodedToken;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,18 +37,23 @@ import io.swagger.annotations.ApiResponses;
 public class MovieControllerImp implements MovieController {
 	@Autowired
 	MovieService service;
-	
+
 	@Autowired
 	DataLoader dataLoader;
 
 	@Override
-	@RequestMapping(value = "api/movies",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "api/movies", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "Create movie", notes = "Returns the created movie")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Created"),
 			@ApiResponse(code = 409, message = "Movie already exists"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
-	public Movie create(@RequestBody Movie movie) throws ResourceAlreadyExistsException {
-		return service.create(movie);
+	public Movie create(@RequestBody Movie movie, @ModelAttribute("requestor") DecodedToken requestor)
+			throws ResourceAlreadyExistsException, InvalidCredentialsException {
+		if (requestor.getSubject().equals("admin")) {
+			return service.create(movie);
+		} else {
+			throw new InvalidCredentialsException();
+		}
 	}
 
 	@Override
@@ -53,10 +61,11 @@ public class MovieControllerImp implements MovieController {
 	@ApiOperation(value = "Find all movies", notes = "Returns the list of movies")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
-	public List<Movie> findAll(@RequestParam(value = "title", required = false) String filterByTitle, HttpServletRequest hr, HttpServletResponse res) {
+	public List<Movie> findAll(@RequestParam(value = "title", required = false) String filterByTitle,
+			HttpServletRequest hr, HttpServletResponse res) {
 		String token = hr.getHeader("Authorization");
-		System.out.println("Authorization:"+token);
-//		res.addHeader("", arg1);
+		System.out.println("Authorization:" + token);
+		// res.addHeader("", arg1);
 		if (filterByTitle == null) {
 			return service.findAll();
 		} else {
@@ -80,8 +89,14 @@ public class MovieControllerImp implements MovieController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
-	public Movie update(@PathVariable("mid") String mid, @RequestBody Movie movie) throws ResourceNotFoundException {
-		return service.update(mid, movie);
+	public Movie update(@PathVariable("mid") String mid, @RequestBody Movie movie,
+			@ModelAttribute("requestor") DecodedToken requestor)
+					throws ResourceNotFoundException, InvalidCredentialsException {
+		if (requestor.getSubject().equals("admin")) {
+			return service.update(mid, movie);
+		} else {
+			throw new InvalidCredentialsException();
+		}
 	}
 
 	@Override
@@ -90,8 +105,13 @@ public class MovieControllerImp implements MovieController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success"),
 			@ApiResponse(code = 404, message = "Not found"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
-	public void delete(@PathVariable("mid") String mid) throws ResourceNotFoundException {
-		service.delete(mid);
+	public void delete(@PathVariable("mid") String mid, @ModelAttribute("requestor") DecodedToken requestor)
+			throws ResourceNotFoundException, InvalidCredentialsException {
+		if (requestor.getSubject().equals("admin")) {
+			service.delete(mid);
+		} else {
+			throw new InvalidCredentialsException();
+		}
 	}
 
 	@Override
@@ -101,5 +121,10 @@ public class MovieControllerImp implements MovieController {
 			@ApiResponse(code = 500, message = "Internal Server Error") })
 	public List<Movie> loadMovieData() throws ParseException, JsonParseException, JsonMappingException, IOException {
 		return dataLoader.loadMovieData();
+	}
+
+	@ModelAttribute("requestor")
+	public DecodedToken getDecodedToken(HttpServletRequest request) {
+		return (DecodedToken) request.getAttribute("requestor");
 	}
 }
